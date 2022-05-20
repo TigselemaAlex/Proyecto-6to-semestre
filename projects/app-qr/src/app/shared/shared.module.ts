@@ -8,12 +8,24 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { TableComponent } from './components/table/table.component';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { PaginatorComponent } from './components/paginator/paginator.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
+const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
+  suppressScrollX: true
+};
 
 @NgModule({
   declarations: [
     TitleComponent,
     ContainerComponent,
-    TableComponent
+    TableComponent,
+    PaginatorComponent
   ],
   imports: [
     CommonModule,
@@ -21,11 +33,25 @@ import { TableComponent } from './components/table/table.component';
     MatIconModule,
     FlexLayoutModule,
     MatCardModule,
-    MatTableModule
+    MatTableModule,
+    PerfectScrollbarModule,
+    MatPaginatorModule,
+    MatTooltipModule
   ], exports: [
     TitleComponent,
     ContainerComponent,
-    TableComponent
+    TableComponent,
+    PaginatorComponent,
+    PerfectScrollbarModule,
+    MatIconModule,
+    MatButtonModule,
+    MatTooltipModule,
+    MatTableModule
+  ], providers: [
+    {
+      provide: PERFECT_SCROLLBAR_CONFIG,
+      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
+    }
   ]
 })
 export class SharedModule { }

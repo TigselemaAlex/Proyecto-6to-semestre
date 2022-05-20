@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { AgenciasRoutingModule } from './agencias-routing.module';
 import { PageListComponent } from './pages/page-list/page-list.component';
 import { SharedModule } from '../shared/shared.module';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
 
 @NgModule({
@@ -13,7 +13,8 @@ import { SharedModule } from '../shared/shared.module';
   imports: [
     CommonModule,
     AgenciasRoutingModule,
-    SharedModule
+    SharedModule,
+    PerfectScrollbarModule
   ]
 })
 export class AgenciasModule { }

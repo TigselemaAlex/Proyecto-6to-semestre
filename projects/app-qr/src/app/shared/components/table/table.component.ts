@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ContentChildren, Input, OnInit, QueryList, SimpleChanges, ViewChild } from '@angular/core';
+import { MatColumnDef, MatTable } from '@angular/material/table';
+import { MetaDataColumn } from '../../interfaces/metacolumn.interface';
 
 interface IData {
   id: number;
@@ -11,32 +13,44 @@ interface IData {
   styleUrls: ['./table.component.css'],
 })
 export class TableComponent implements OnInit {
-  data: IData[] = [
-    {
-      id: 1,
-      agency: 'Ambato',
-    },
-    {
-      id: 2,
-      agency: 'Quito',
-    },
-    {
-      id: 3,
-      agency: 'Riobamba',
-    },
-    {
-      id: 4,
-      agency: 'Loja',
-    },
-    {
-      id: 5,
-      agency: 'Guayaquil',
-    },
-  ];
 
-  listFields: string[] = ['id', 'agency'];
+  @Input() public data: any;
+  @Input() metaDataColumns!: MetaDataColumn[];
+
+  public columns!: string[];
+
+  /* Identificar la columna extra */
+  @ContentChildren(MatColumnDef, { descendants: true }) columnsDef!: QueryList<MatColumnDef>;
+
+  @ViewChild(MatTable, { static: true }) table!: MatTable<any>;
 
   constructor() { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['metaDataColumns']) {
+      this.columns = this.metaDataColumns.map((data) => data.field);
+      console.log(changes);
+    }
+
+
+  }
+  ngAfterContentInit(): void {
+    if (!this.columnsDef) {
+
+      return
+    }
+
+    console.log(this.columnsDef);
+    this.columnsDef.forEach(columnDef => {
+
+      this.columns.push(columnDef.name);
+      this.table.addColumnDef(columnDef);
+    })
+  }
+
+
 }

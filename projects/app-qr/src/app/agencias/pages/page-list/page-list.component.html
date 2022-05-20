@@ -1,4 +1,19 @@
 <qr-title></qr-title>
 <qr-container>
-  <qr-table></qr-table>
+  <perfect-scrollbar class="heightMaxPerfectScrollBar">
+    <qr-table [data]="data" [metaDataColumns]="metaDataColumns">
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let row" class="alight-right">
+          <button mat-icon-button color="primary" (click)="openForm(row)" matTooltip="EDITAR">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="accent" (click)="delete(row.id)" matTooltip="ELIMINAR">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+    </qr-table>
+  </perfect-scrollbar>
+  <qr-paginator (onChangePage)="changePage($event)" [lenght]="totalRecords"></qr-paginator>
 </qr-container>
