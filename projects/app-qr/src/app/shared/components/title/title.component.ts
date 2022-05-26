@@ -17,7 +17,7 @@ export class TitleComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.path);
+
   }
 
 }

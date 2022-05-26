@@ -17,3 +17,4 @@
   </perfect-scrollbar>
   <qr-paginator (onChangePage)="changePage($event)" [lenght]="totalRecords"></qr-paginator>
 </qr-container>
+<qr-keypad-button [keypadButtons]="keypadButtons" (onClick)="doAction($event)"></qr-keypad-button>

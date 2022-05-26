@@ -12,10 +12,19 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { PaginatorComponent } from './components/paginator/paginator.component';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ConfirmComponent } from './components/confirm/confirm.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { KeypadButtonComponent } from './components/keypad-button/keypad-button.component';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { DownloadComponent } from './components/download/download.component';
 
+
+import { MatListModule } from '@angular/material/list';
+import { CustomPaginator } from './components/paginator/paginatorConfiguration';
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
 };
@@ -25,7 +34,10 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     TitleComponent,
     ContainerComponent,
     TableComponent,
-    PaginatorComponent
+    PaginatorComponent,
+    ConfirmComponent,
+    KeypadButtonComponent,
+    DownloadComponent
   ],
   imports: [
     CommonModule,
@@ -36,7 +48,12 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     MatTableModule,
     PerfectScrollbarModule,
     MatPaginatorModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatSnackBarModule,
+    MatBottomSheetModule,
+    MatListModule
   ], exports: [
     TitleComponent,
     ContainerComponent,
@@ -46,12 +63,19 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     MatIconModule,
     MatButtonModule,
     MatTooltipModule,
-    MatTableModule
+    MatTableModule,
+    ConfirmComponent,
+    MatDialogModule,
+    MatSnackBarModule,
+    KeypadButtonComponent,
+    DownloadComponent,
+    MatListModule
   ], providers: [
     {
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
-    }
+    },
+    { provide: MatPaginatorIntl, useValue: CustomPaginator() }
   ]
 })
 export class SharedModule { }

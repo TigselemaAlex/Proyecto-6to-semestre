@@ -1,6 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from 'projects/app-qr/src/environments/environment';
+import { ConfirmComponent } from '../../../shared/components/confirm/confirm.component';
+import { DownloadComponent } from '../../../shared/components/download/download.component';
+import { KeypadButton } from '../../../shared/interfaces/keybutton.interface';
 import { MetaDataColumn } from '../../../shared/interfaces/metacolumn.interface';
+
 
 @Component({
   selector: 'qr-page-list',
@@ -180,7 +187,13 @@ export class PageListComponent implements OnInit {
 
   public totalRecords: number = this.recordAgency.length;
 
-  constructor() { }
+  public keypadButtons: KeypadButton[] = [{
+    icon: 'cloud_download', tooltip: 'EXPORTAR', color: 'accent', action: 'DOWNLOAD'
+  }, {
+    icon: 'add', tooltip: 'AGREGAR', color: 'primary', action: 'NEW'
+  }]
+
+  constructor(private dialog: MatDialog, private sanackBar: MatSnackBar, private bottomSheet: MatBottomSheet) { }
 
   ngOnInit(): void {
     this.changePage(0);
@@ -192,8 +205,48 @@ export class PageListComponent implements OnInit {
     this.data = this.recordAgency.slice(skip, skip + pageSize);
   }
 
-  openForm(row: any): void { }
+  openForm(row: any = null): void { }
 
-  delete(id: number): void { }
+  delete(id: number): void {
+    const reference: MatDialogRef<ConfirmComponent> = this.dialog.open(
+      ConfirmComponent, { width: "320px", disableClose: true }
+    );
+    reference.componentInstance.message = "¿Estas seguro de eliminar la agencia?";
+    reference.afterClosed().subscribe(response => {
+      if (!response) {
+        return;
+      }
+      const position: number = this.recordAgency.findIndex((item) => item.id === id);
+      this.recordAgency.splice(position, 1);
+      this.changePage(0);
+      this.showMessage("Eliminado correctamente")
+    })
+
+  }
+
+  showMessage(messaje: string, duration: number = 2000): void {
+    this.sanackBar.open(messaje, '', { duration: duration, horizontalPosition: 'right' })
+  }
+
+  doAction(action: string): void {
+    switch (action) {
+      case 'DOWNLOAD':
+        this.showBottomSheet("lista de agencias", "agencias", this.recordAgency, this.metaDataColumns);
+        break;
+      case 'NEW':
+        this.openForm();
+        break;
+      default:
+        break;
+    }
+  }
+
+  showBottomSheet(title: string, fileName: string, data: any, metaDataColumn: MetaDataColumn[]) {
+    this.bottomSheet.open(DownloadComponent, {
+      data: { data: data, metaDataColumn: metaDataColumn }
+    });
+
+
+  }
 
 }

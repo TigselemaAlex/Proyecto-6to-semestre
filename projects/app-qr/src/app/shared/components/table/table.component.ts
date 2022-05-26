@@ -33,7 +33,6 @@ export class TableComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['metaDataColumns']) {
       this.columns = this.metaDataColumns.map((data) => data.field);
-      console.log(changes);
     }
 
 
@@ -44,7 +43,6 @@ export class TableComponent implements OnInit {
       return
     }
 
-    console.log(this.columnsDef);
     this.columnsDef.forEach(columnDef => {
 
       this.columns.push(columnDef.name);
